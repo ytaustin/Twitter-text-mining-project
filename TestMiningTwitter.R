@@ -38,7 +38,7 @@ load("TwitterAuthentication.Rdata")
 setup_twitter_oauth(credentials$consumerKey, credentials$consumerSecret, credentials$oauthKey, credentials$oauthSecret)
 
 #Extract Tweets with concerned string(first argument), followed by number of tweets (n) and language (lang)
-tweets <- userTimeline("realdonaldtrump", n=200, sinceID = NULL, includeRts = TRUE, excludeReplies = TRUE)
+tweets <- userTimeline("realdonaldtrump", n=3200, sinceID = NULL, includeRts = TRUE, excludeReplies = TRUE)
 
 #strip retweets
 tweets <- strip_retweets(tweets)
