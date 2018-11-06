@@ -2,6 +2,9 @@ library(lubridate)
 library(ggplot2)
 library(dplyr)
 library(readr)
+library(tidytext)
+library(stringr)
+library(tidyr)
 
 #load tramp and obama tweet data
 
@@ -20,3 +23,31 @@ tweets <- bind_rows(tweets_trump %>%
                     tweets_obama %>%
                       mutate(person = "Obama")) %>%
   mutate(created = ymd_hms(created))
+
+
+
+#clean the data a little bit
+remove_reg <- "&amp;|&lt;|&gt;|#"
+tidy_tweets <- tweets %>%
+  filter(!str_detect(text, "^RT")) %>%
+  mutate(text = str_remove_all(text, remove_reg)) %>%
+  unnest_tokens(word, text, token = "tweets") %>%
+  filter(
+    !word %in% stop_words$word,!word %in% str_remove_all(stop_words$word, "'"),!str_detect(word, "president"),!str_detect(word, "trump"),!str_detect(word, "obama"),
+    str_detect(word, "[a-z]")
+  )
+
+tidy_tweets_nrc <- tidy_tweets %>%
+  inner_join(get_sentiments("nrc"))
+
+
+#Comparing the sentiment of the tweets of Trump and Obama
+ggplot(tidy_tweets_nrc, aes(x = sentiment, fill = person)) +
+  geom_bar(position = "dodge")
+ggsave("nrc_sentiment.jpg")
+
+
+tidy_tweets_afinn <- tidy_tweets %>%
+  inner_join(get_sentiments("afinn"))
+
+
