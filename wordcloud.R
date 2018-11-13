@@ -9,6 +9,8 @@ library(tm)
 library(SnowballC)
 library(wordcloud)
 library(RColorBrewer)
+library(wordcloud2)
+library(sqldf)
 
 
 #load tramp and obama tweet data
@@ -63,16 +65,20 @@ frequency_Trump <- tweets_trump  %>%
 frequency_Obama <- tweets_obama  %>%
   count(word, sort = TRUE)
   
-  
 
 #make a different shaped data frame
 
 set.seed(1234)
-wordcloud(words = frequency_Trump$word, freq = frequency_Trump$n, min.freq =50,
+wordcloud(words = frequency_Trump$word, freq = frequency_Trump$n, min.freq =20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, "Dark2"))
 
 set.seed(1234)
-wordcloud(words = frequency_Obama$word, freq = frequency_Obama$n, min.freq =50,
+wordcloud(words = frequency_Obama$word, freq = frequency_Obama$n, min.freq =20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, "Dark2"))
+
+letterCloud( sqldf('SELECT * FROM frequency_Obama WHERE n > 20'), word = "OBAMA", wordSize = 1)
+
+wordcloud2(frequency_Trump, figPath = "trump.png", size = 1.5,color = "skyblue")
+
