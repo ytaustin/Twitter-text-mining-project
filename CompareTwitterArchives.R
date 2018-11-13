@@ -42,7 +42,9 @@ tidy_tweets <- tweets %>%
   mutate(text = str_remove_all(text, remove_reg)) %>%
   unnest_tokens(word, text, token = "tweets") %>%
   filter(
-    !word %in% stop_words$word,!word %in% str_remove_all(stop_words$word, "'"),!str_detect(word, "president"),!str_detect(word, "trump"),!str_detect(word, "obama"),
+    !word %in% stop_words$word,!word %in% str_remove_all(stop_words$word, "'"),
+    !str_detect(word, "http"),
+    !str_detect(word, "president"),!str_detect(word, "trump"),!str_detect(word, "obama"),
     str_detect(word, "[a-z]")
   )
 
@@ -62,6 +64,7 @@ frequency <- frequency %>%
   select(person, word, freq) %>%
   spread(person, freq) %>%
   arrange(Trump, Obama)
+
 
 #Comparing the frequency of words used by Trump and Obama
 library(scales)
@@ -113,6 +116,8 @@ word_ratios %>%
   ylab("log odds ratio (Trump/Obama)") +
   scale_fill_discrete(name = "", labels = c("Trump", "Obama"))
 ggsave("CompareWordUsage.jpg")
+
+
 
 
 

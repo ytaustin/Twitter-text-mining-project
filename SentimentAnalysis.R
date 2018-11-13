@@ -58,7 +58,11 @@ tidy_tweets <- tweets %>%
   mutate(text = str_remove_all(text, remove_reg)) %>%
   unnest_tokens(word, text, token = "tweets") %>%
   filter(
-    !word %in% stop_words$word,!word %in% str_remove_all(stop_words$word, "'"),!str_detect(word, "president"),!str_detect(word, "trump"),!str_detect(word, "obama"),
+    !word %in% stop_words$word,
+    !word %in% str_remove_all(stop_words$word, "'"),
+    !str_detect(word, "president"),
+    !str_detect(word, "trump"),
+    !str_detect(word, "obama"),
     str_detect(word, "[a-z]")
   )
 
