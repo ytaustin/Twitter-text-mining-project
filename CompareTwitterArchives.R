@@ -7,11 +7,11 @@ library(readr)
 
 tweets_trump <-
   read.csv(
-    "C:/Users/taoya/OneDrive/Documents/Twitter-text-mining-project/TrumpTweets.csv"
+    "C:/Users/taoya/OneDrive/Documents/Twitter-text-mining-project/TrumpTweets1.csv"
   ) %>% select(text, created)
 tweets_obama <-
   read.csv(
-    "C:/Users/taoya/OneDrive/Documents/Twitter-text-mining-project/ObamaTweets.csv"
+    "C:/Users/taoya/OneDrive/Documents/Twitter-text-mining-project/ObamaTweets1.csv"
   ) %>% select(text, created)
 
 #bind two data together and assign name to each tweet, and chang the created time format
@@ -44,6 +44,7 @@ tidy_tweets <- tweets %>%
   filter(
     !word %in% stop_words$word,!word %in% str_remove_all(stop_words$word, "'"),
     !str_detect(word, "http"),
+    !str_detect(word, "@"),
     !str_detect(word, "president"),!str_detect(word, "trump"),!str_detect(word, "obama"),
     str_detect(word, "[a-z]")
   )

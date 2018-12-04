@@ -29,7 +29,7 @@ library(devtools)
 # credentials$handshake(cainfo="cacert.pem")
 # #Save the credentials for later use
 # save(credentials, file="TwitterAuthentication.Rdata")
-# 
+# #THIS PART JUST NEED RUN ONCE
 # #-------------------------------------------------------------
 
 #Load Authentication Data
